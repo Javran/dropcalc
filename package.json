@@ -1,0 +1,43 @@
+{
+  "name": "dropcalc",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015-node6": "^0.4.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "font-awesome": "^4.7.0",
+    "fs-extra": "^4.0.1",
+    "i18n-2": "^0.7.0",
+    "lodash": "^4.17.4",
+    "mocha": "^3.4.2",
+    "path-extra": "^4.2.0",
+    "react": "^15.6.1",
+    "react-bootstrap": "^0.31.0",
+    "react-dom": "^15.6.1",
+    "react-fontawesome": "^1.6.1",
+    "react-redux": "^5.0.5",
+    "react-scripts": "1.0.11",
+    "redux": "^3.7.1",
+    "redux-observers": "^2.0.2",
+    "reselect": "^3.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "gh-pages": "^1.0.0",
+    "react-scripts": "1.0.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint 'src/**/*.js'"
+  }
+}
