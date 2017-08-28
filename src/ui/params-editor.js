@@ -5,10 +5,10 @@ import {
 
 const mkParamRow = (paramName, editor, key) => (
   <div style={{display: 'flex', alignItems: 'center', marginBottom: 5}} key={key}>
-    <div style={{width: '16em'}}>
+    <div style={{flex: 1, maxWidth: '16em'}}>
       {paramName}
     </div>
-    <div style={{flex: 1}}>
+    <div style={{flex: 3}}>
       {editor}
     </div>
   </div>
@@ -23,7 +23,16 @@ class ParamsEditor extends Component {
             [
               [
                 'Drop Rate',
-                'Edit',
+                (
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <FormControl
+                      style={{flex: 1, marginRight: 5}}
+                      type="text"
+                      placeholder="TODO"
+                    />
+                    <span style={{fontSize: '1.2em', fontWeight: 'bold'}}>%</span>
+                  </div>
+                ),
               ],
               [
                 'Experiment Count',
@@ -32,7 +41,6 @@ class ParamsEditor extends Component {
                     <FormControl
                       style={{flex: 1, marginRight: 5}}
                       type="number"
-                      placeholder="TODO"
                     />
                     <Button style={{marginRight: 5}}>
                       1000
@@ -51,7 +59,6 @@ class ParamsEditor extends Component {
                 (
                   <FormControl
                     type="number"
-                    placeholder="TODO"
                   />
                 ),
               ],
