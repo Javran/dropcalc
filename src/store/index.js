@@ -4,10 +4,10 @@ import { mkSimpleReducer } from 'subtender'
 const initState = {
   params: {
     /*
-       0 <= dropRateStr <= 1, note that when dropRate is 0,
+       0 <= dropRatePercentStr <= 1, note that when dropRate is 0,
        we should prevent simulation from happening
      */
-    dropRateStr: '5',
+    dropRatePercentStr: '5',
     experimentCount: 1000,
     beforeAbort: 2000,
   },

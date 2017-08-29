@@ -6,7 +6,7 @@ import {
   Panel, FormControl, Button,
 } from 'react-bootstrap'
 
-import { paramsSelector } from '../selectors'
+import { paramsSelector, canSimulateSelector } from '../selectors'
 import { PTyp } from '../ptyp'
 import { mapDispatchToProps } from '../store'
 
@@ -28,9 +28,10 @@ const mkParamRow = (paramName, editor, key) => (
 
 class ParamsEditorImpl extends Component {
   static propTypes = {
-    dropRateStr: PTyp.number.isRequired,
+    dropRatePercentStr: PTyp.number.isRequired,
     experimentCount: PTyp.number.isRequired,
     beforeAbort: PTyp.number.isRequired,
+    canSimulate: PTyp.bool.isRequired,
     modifyState: PTyp.func.isRequired,
   }
 
@@ -52,7 +53,7 @@ class ParamsEditorImpl extends Component {
     const raw = e.target.value.trim()
     const updateDropRate = () =>
       this.modifyParams(
-        modifyObject('dropRateStr', () => raw)
+        modifyObject('dropRatePercentStr', () => raw)
       )
 
     if (raw === '.') {
@@ -76,7 +77,8 @@ class ParamsEditorImpl extends Component {
 
   render() {
     const {
-      dropRateStr, experimentCount, beforeAbort,
+      dropRatePercentStr, experimentCount, beforeAbort,
+      canSimulate,
     } = this.props
     return (
       <Panel header="Parameters">
@@ -91,7 +93,7 @@ class ParamsEditorImpl extends Component {
                       onChange={this.handleChangeDropRate}
                       style={{flex: 1, marginRight: 5}}
                       type="text"
-                      value={dropRateStr}
+                      value={dropRatePercentStr}
                     />
                     <span style={{fontSize: '1.2em', fontWeight: 'bold'}}>%</span>
                   </div>
@@ -136,8 +138,15 @@ class ParamsEditorImpl extends Component {
               mkParamRow(...args, ind)
             )
           }
-          <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
-            <Button>Simulate</Button>
+          <div
+            style={{display: 'flex', flexDirection: 'row-reverse'}}
+          >
+            <Button
+              bsStyle={canSimulate ? 'success' : 'danger'}
+              disabled={!canSimulate}
+            >
+              Simulate
+            </Button>
           </div>
         </div>
       </Panel>
@@ -146,7 +155,10 @@ class ParamsEditorImpl extends Component {
 }
 
 const ParamsEditor = connect(
-  paramsSelector,
+  state => ({
+    ...paramsSelector(state),
+    canSimulate: canSimulateSelector(state),
+  }),
   mapDispatchToProps,
 )(ParamsEditorImpl)
 
