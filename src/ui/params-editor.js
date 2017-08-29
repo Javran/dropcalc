@@ -28,7 +28,7 @@ const mkParamRow = (paramName, editor, key) => (
 
 class ParamsEditorImpl extends Component {
   static propTypes = {
-    dropRatePercentStr: PTyp.number.isRequired,
+    dropRatePercentStr: PTyp.string.isRequired,
     experimentCount: PTyp.number.isRequired,
     beforeAbort: PTyp.number.isRequired,
     canSimulate: PTyp.bool.isRequired,
@@ -114,6 +114,7 @@ class ParamsEditorImpl extends Component {
                         const xs = [1000,10000,100000]
                         return xs.map((val,ind) => (
                           <Button
+                            key={val}
                             onClick={this.handleClickExperimentCount(val)}
                             style={ind+1 === xs.length ? {} : {marginRight: 5}}>
                             {val}
