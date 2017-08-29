@@ -1,3 +1,5 @@
+import _ from 'lodash'
+import { modifyObject } from 'subtender'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
@@ -6,6 +8,7 @@ import {
 
 import { paramsSelector } from '../selectors'
 import { PTyp } from '../ptyp'
+import { mapDispatchToProps } from '../store'
 
 const mkParamRow = (paramName, editor, key) => (
   <div
@@ -25,14 +28,56 @@ const mkParamRow = (paramName, editor, key) => (
 
 class ParamsEditorImpl extends Component {
   static propTypes = {
-    dropRate: PTyp.number.isRequired,
+    dropRateStr: PTyp.number.isRequired,
     experimentCount: PTyp.number.isRequired,
     beforeAbort: PTyp.number.isRequired,
+    modifyState: PTyp.func.isRequired,
   }
+
+  handleChangeParam = which => e => {
+    const val = Number(e.target.value)
+    if (_.isInteger(val) && val >= 0) {
+      this.props.modifyState(
+        modifyObject(
+          'params',
+          modifyObject(which, () => val)
+        )
+      )
+    }
+  }
+
+  handleChangeDropRate = e => {
+    const raw = e.target.value.trim()
+    const updateDropRate = () =>
+      this.props.modifyState(
+        modifyObject(
+          'params',
+          modifyObject('dropRateStr', () => raw)
+        )
+      )
+
+    if (raw === '.') {
+      updateDropRate()
+      return
+    }
+
+    const val = Number(raw)
+    if (_.isFinite(val) && val >= 0 && val <= 100) {
+      updateDropRate()
+    }
+  }
+
+  handleClickExperimentCount = newVal => () =>
+    this.props.modifyState(
+      modifyObject(
+        'experimentCount',
+        () => newVal
+      )
+    )
 
   render() {
     const {
-      dropRate, experimentCount, beforeAbort,
+      dropRateStr, experimentCount, beforeAbort,
     } = this.props
     return (
       <Panel header="Parameters">
@@ -44,9 +89,10 @@ class ParamsEditorImpl extends Component {
                 (
                   <div style={{display: 'flex', alignItems: 'center'}}>
                     <FormControl
+                      onChange={this.handleChangeDropRate}
                       style={{flex: 1, marginRight: 5}}
                       type="text"
-                      value={String(dropRate*100)}
+                      value={dropRateStr}
                     />
                     <span style={{fontSize: '1.2em', fontWeight: 'bold'}}>%</span>
                   </div>
@@ -57,26 +103,31 @@ class ParamsEditorImpl extends Component {
                 (
                   <div style={{display: 'flex', alignItems: 'center'}}>
                     <FormControl
-                      style={{flex: 1, marginRight: 5}}
+                      onChange={this.handleChangeParam('experimentCount')}
+                      style={{flex: 1, minWidth: '5em', marginRight: 5}}
                       type="text"
                       value={String(experimentCount)}
                     />
-                    <Button style={{marginRight: 5}}>
-                      1000
-                    </Button>
-                    <Button style={{marginRight: 5}}>
-                      10000
-                    </Button>
-                    <Button>
-                      100000
-                    </Button>
+                    {
+                      (() => {
+                        const xs = [1000,10000,100000]
+                        return xs.map((val,ind) => (
+                          <Button
+                            onClick={this.handleClickExperimentCount(val)}
+                            style={ind+1 === xs.length ? {} : {marginRight: 5}}>
+                            {val}
+                          </Button>
+                        ))
+                      })()
+                    }
                   </div>
                 ),
               ],
               [
-                'Count Before Aborting',
+                'Attempts Before Aborting',
                 (
                   <FormControl
+                    onChange={this.handleChangeParam('beforeAbort')}
                     type="text"
                     value={String(beforeAbort)}
                   />
@@ -97,6 +148,7 @@ class ParamsEditorImpl extends Component {
 
 const ParamsEditor = connect(
   paramsSelector,
+  mapDispatchToProps,
 )(ParamsEditorImpl)
 
 export { ParamsEditor }

@@ -1,13 +1,13 @@
-import { createStore } from 'redux'
+import { createStore, bindActionCreators } from 'redux'
 import { mkSimpleReducer } from 'subtender'
 
 const initState = {
   params: {
     /*
-       0 <= dropRate <= 1, note that when dropRate is 0,
+       0 <= dropRateStr <= 1, note that when dropRate is 0,
        we should prevent simulation from happening
      */
-    dropRate: 0.05,
+    dropRateStr: '0.05',
     experimentCount: 1000,
     beforeAbort: 2000,
   },
@@ -26,6 +26,23 @@ const store = createStore(reducer)
 
 window.getStore = store.getState
 
+const actionCreator = {
+  modifyState: modifier => ({
+    type: 'DropCalc@modify',
+    modifier,
+  }),
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(actionCreator, dispatch)
+
+const withBoundActionCreator = (func, dispatch=store.dispatch) =>
+  func(mapDispatchToProps(dispatch))
+
 export {
   store,
+
+  actionCreator,
+  mapDispatchToProps,
+  withBoundActionCreator,
 }
