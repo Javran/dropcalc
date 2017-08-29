@@ -42,7 +42,9 @@ class ParamsEditorImpl extends Component {
   handleChangeParam = which => e => {
     const val = Number(e.target.value)
     if (_.isInteger(val) && val >= 0) {
-      this.modifyParams(which, () => val)
+      this.modifyParams(
+        modifyObject(which, () => val)
+      )
     }
   }
 
