@@ -11,10 +11,20 @@ const initState = {
     experimentCount: 1000,
     beforeAbort: 2000,
   },
-  result: {
-    // TODO
-    stats: null,
-  },
+  /*
+     when result is not null: {stats, params}
+
+     - stats: an Array of:
+
+       [<# of attempts> or 'aborted', <count>]
+
+       first element (attempt or 'aborted') is unique amoung members.
+       the array is sorted by attempts (in ascending order), and if 'aborted' element is present,
+       it's always the last one.
+
+     - params: normalized params for this simulation run
+   */
+  result: null,
 }
 
 const reducer = mkSimpleReducer(

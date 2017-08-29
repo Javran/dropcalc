@@ -9,6 +9,7 @@ import {
 import { paramsSelector, canSimulateSelector } from '../selectors'
 import { PTyp } from '../ptyp'
 import { mapDispatchToProps } from '../store'
+import { performSimulateAsync } from '../simulate'
 
 const mkParamRow = (paramName, editor, key) => (
   <div
@@ -145,6 +146,7 @@ class ParamsEditorImpl extends Component {
             <Button
               bsStyle={canSimulate ? 'success' : 'danger'}
               disabled={!canSimulate}
+              onClick={performSimulateAsync}
             >
               Simulate
             </Button>
