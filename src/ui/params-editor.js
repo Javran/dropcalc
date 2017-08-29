@@ -34,26 +34,23 @@ class ParamsEditorImpl extends Component {
     modifyState: PTyp.func.isRequired,
   }
 
+  modifyParams = modifier =>
+    this.props.modifyState(
+      modifyObject('params', modifier)
+    )
+
   handleChangeParam = which => e => {
     const val = Number(e.target.value)
     if (_.isInteger(val) && val >= 0) {
-      this.props.modifyState(
-        modifyObject(
-          'params',
-          modifyObject(which, () => val)
-        )
-      )
+      this.modifyParams(which, () => val)
     }
   }
 
   handleChangeDropRate = e => {
     const raw = e.target.value.trim()
     const updateDropRate = () =>
-      this.props.modifyState(
-        modifyObject(
-          'params',
-          modifyObject('dropRateStr', () => raw)
-        )
+      this.modifyParams(
+        modifyObject('dropRateStr', () => raw)
       )
 
     if (raw === '.') {
@@ -68,7 +65,7 @@ class ParamsEditorImpl extends Component {
   }
 
   handleClickExperimentCount = newVal => () =>
-    this.props.modifyState(
+    this.modifyParams(
       modifyObject(
         'experimentCount',
         () => newVal
