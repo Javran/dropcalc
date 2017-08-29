@@ -7,7 +7,7 @@ const initState = {
        0 <= dropRateStr <= 1, note that when dropRate is 0,
        we should prevent simulation from happening
      */
-    dropRateStr: '0.05',
+    dropRateStr: '5',
     experimentCount: 1000,
     beforeAbort: 2000,
   },
