@@ -52,7 +52,7 @@ class ResultViewerImpl extends PureComponent {
                   <td>
                     {
                       countOrAbort === 'aborted' ?
-                        '100%' :
+                        '-' :
                         `${(rateNB*100).toFixed(2)}%`
                     }
                   </td>
