@@ -2,6 +2,7 @@
   "name": "dropcalc",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://javran.github.io/dropcalc",
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015-node6": "^0.4.0",
@@ -39,6 +40,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "lint": "eslint 'src/**/*.js'"
   }
 }
