@@ -10,6 +10,7 @@ const trData = {
     Result: {
       Title: "Result",
       CD: "CD",
+      Aborted: "Aborted",
     },
   },
   'zh-CN': {
@@ -23,6 +24,7 @@ const trData = {
     Result: {
       Title: "结果",
       CD: "累积分布",
+      Aborted: "放弃",
     },
   },
   'zh-TW': {
@@ -36,6 +38,7 @@ const trData = {
     Result: {
       Title: "結果",
       CD: "累積分佈",
+      Aborted: "放棄",
     },
   },
 }
