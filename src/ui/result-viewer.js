@@ -33,7 +33,7 @@ class ResultViewerImpl extends PureComponent {
                 %
               </th>
               <th style={{fontWeight: 'bold'}}>
-                % (CDF)
+                % (CD)
               </th>
             </tr>
           </thead>
