@@ -32,11 +32,14 @@ class ResultViewerImpl extends PureComponent {
               <th style={{fontWeight: 'bold'}}>
                 %
               </th>
+              <th style={{fontWeight: 'bold'}}>
+                % (theoretical)
+              </th>
             </tr>
           </thead>
           <tbody>
             {
-              rows.map(([countOrAbort,count,rate]) => (
+              rows.map(([countOrAbort,count,rate,rateNB]) => (
                 <tr key={countOrAbort}>
                   <td>
                     {
@@ -46,6 +49,7 @@ class ResultViewerImpl extends PureComponent {
                     }
                   </td>
                   <td>{`${(rate*100).toFixed(2)}% (${count})`}</td>
+                  <td>{`${(rateNB*100).toFixed(2)}%`}</td>
                 </tr>
               ))
             }

@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import { createSelector } from 'reselect'
 
+import { computeCDF } from './compute-cdf'
+
 const paramsSelector =
   state => state.params
 
@@ -58,7 +60,7 @@ const resultParamsDescSelector = createSelector(
 const resultStatRowsSelector = createSelector(
   resultSelector,
   ({stats,params}) => {
-    const {experimentCount} = params
+    const {experimentCount, dropRate} = params
     let abortRow
     let nonAbortStats
     if (_.last(stats)[0] === 'aborted') {
@@ -89,7 +91,12 @@ const resultStatRowsSelector = createSelector(
       rows.push([curLessOrEq,count])
     }
     return (abortRow ? [...rows, abortRow] : rows).map(
-      ([k,v]) => [k,v,v/experimentCount])
+      ([k,v]) => [
+        k,
+        v,
+        v/experimentCount,
+        k === 'aborted' ? null : computeCDF(dropRate, k),
+      ])
   }
 )
 
