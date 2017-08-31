@@ -45,18 +45,28 @@ const hasResultSelector = createSelector(
   result => Boolean(result)
 )
 
+const translateSelector = createSelector(
+  langSelector,
+  lang => {
+    const i18nInst = i18nInstances[lang]
+    const tr = i18nInst.__.bind(i18nInst)
+    const trN = i18nInst.__n.bind(i18nInst)
+    return {tr, trN}
+  })
+
 const resultParamsDescSelector = createSelector(
   resultSelector,
-  ({params}) => {
+  translateSelector,
+  ({params},{tr}) => {
     const {
       dropRate,
       beforeAbort,
       experimentCount,
     } = params
     return [
-      `Drop Rate: ${(dropRate*100).toFixed(4)}%`,
-      `Experiment Count: ${experimentCount}`,
-      `Attempts Before Aborting: ${beforeAbort}`,
+      `${tr('Params.DropRate')}: ${(dropRate*100).toFixed(4)}%`,
+      `${tr('Params.ExperimentCount')}: ${experimentCount}`,
+      `${tr('Params.BeforeAbort')}: ${beforeAbort}`,
     ].join(', ')
   }
 )
@@ -103,15 +113,6 @@ const resultStatRowsSelector = createSelector(
       ])
   }
 )
-
-const translateSelector = createSelector(
-  langSelector,
-  lang => {
-    const i18nInst = i18nInstances[lang]
-    const tr = i18nInst.__.bind(i18nInst)
-    const trN = i18nInst.__n.bind(i18nInst)
-    return {tr, trN}
-  })
 
 export {
   paramsSelector,

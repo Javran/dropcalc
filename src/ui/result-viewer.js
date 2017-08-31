@@ -7,6 +7,7 @@ import {
 import {
   resultParamsDescSelector,
   resultStatRowsSelector,
+  translateSelector,
 } from '../selectors'
 import { PTyp } from '../ptyp'
 
@@ -14,12 +15,13 @@ class ResultViewerImpl extends PureComponent {
   static propTypes = {
     paramsDesc: PTyp.string.isRequired,
     rows: PTyp.array.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   render() {
-    const {paramsDesc,rows} = this.props
+    const {paramsDesc,rows,tr} = this.props
     return (
-      <Panel header="Result">
+      <Panel header={tr('Result.Title')}>
         <div style={{marginBottom: 5}}>{paramsDesc}</div>
         <Table
           style={{tableLayout: 'fixed'}}
@@ -33,7 +35,7 @@ class ResultViewerImpl extends PureComponent {
                 %
               </th>
               <th style={{fontWeight: 'bold'}}>
-                % (CD)
+                % ({tr('Result.CD')})
               </th>
             </tr>
           </thead>
@@ -44,7 +46,7 @@ class ResultViewerImpl extends PureComponent {
                   <td>
                     {
                       countOrAbort === 'aborted' ?
-                        'Aborted' :
+                        tr('Result.Aborted') :
                         `≤${countOrAbort}`
                     }
                   </td>
@@ -71,6 +73,7 @@ const ResultViewer = connect(
   state => ({
     paramsDesc: resultParamsDescSelector(state),
     rows: resultStatRowsSelector(state),
+    ...translateSelector(state),
   })
 )(ResultViewerImpl)
 
