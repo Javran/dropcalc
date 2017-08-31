@@ -1,7 +1,7 @@
 import { createStore, bindActionCreators } from 'redux'
-import { mkSimpleReducer } from 'subtender'
+import { mkSimpleReducer, modifyObject } from 'subtender'
 
-import { loadPersistState } from './persist'
+import { loadPersistState, savePersistState } from './persist'
 
 const initState = {
   params: {
@@ -51,6 +51,13 @@ const actionCreator = {
     type: 'DropCalc@modify',
     modifier,
   }),
+  changeLang: newLang => {
+    const modifier = modifyObject('lang', () => newLang)
+    // TODO: quick and dirty
+    const newState = modifier(store.getState())
+    savePersistState(newState)
+    return actionCreator.modifyState(modifier)
+  },
 }
 
 const mapDispatchToProps = dispatch =>

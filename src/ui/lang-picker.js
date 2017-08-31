@@ -19,13 +19,14 @@ import { PTyp } from '../ptyp'
 class LangPickerImpl extends Component {
   static propTypes = {
     lang: PTyp.string.isRequired,
-    modifyState: PTyp.func.isRequired,
+    changeLang: PTyp.func.isRequired,
   }
 
-  handleChangeLang = newLang =>
-    this.props.modifyState(
-      modifyObject('lang', () => newLang)
-    )
+  handleChangeLang = newLang => {
+    const {lang,changeLang} = this.props
+    if (lang !== newLang)
+      changeLang(newLang)
+  }
 
   render() {
     const {lang} = this.props

@@ -23,4 +23,12 @@ const loadPersistState = () => {
   }
 }
 
-export { loadPersistState }
+const savePersistState = state => {
+  const {lang} = state
+  localStorage.dropCalc = JSON.stringify({
+    lang,
+    $dataVersion: '0.0.1',
+  })
+}
+
+export { loadPersistState, savePersistState }
