@@ -9,6 +9,9 @@ const paramsSelector =
 const resultSelector =
   state => state.result
 
+const langSelector =
+  state => state.lang
+
 
 /*
    Produces null or normalized set of parameters.
@@ -107,4 +110,5 @@ export {
   hasResultSelector,
   resultParamsDescSelector,
   resultStatRowsSelector,
+  langSelector,
 }

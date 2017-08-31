@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { ParamsEditor } from './params-editor'
 import { ResultViewer } from './result-viewer'
+import { LangPicker } from './lang-picker'
 import { PTyp } from '../ptyp'
 import { hasResultSelector } from '../selectors'
 
@@ -21,6 +22,7 @@ class DropCalcMainImpl extends Component {
             <ResultViewer />
           )
         }
+        <LangPicker />
       </div>
     )
   }
