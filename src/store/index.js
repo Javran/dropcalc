@@ -1,6 +1,8 @@
 import { createStore, bindActionCreators } from 'redux'
 import { mkSimpleReducer } from 'subtender'
 
+import { loadPersistState } from './persist'
+
 const initState = {
   params: {
     /*
@@ -32,7 +34,15 @@ const reducer = mkSimpleReducer(
   'DropCalc@modify'
 )
 
-const store = createStore(reducer)
+const loadPreparedState = () => {
+  const persist = loadPersistState()
+  return {
+    ...initState,
+    ...persist,
+  }
+}
+
+const store = createStore(reducer,loadPreparedState())
 
 window.getStore = store.getState
 
