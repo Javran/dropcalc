@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { createSelector } from 'reselect'
 
 import { computeCDF } from './compute-cdf'
+import { i18nInstances } from './i18n'
 
 const paramsSelector =
   state => state.params
@@ -103,6 +104,15 @@ const resultStatRowsSelector = createSelector(
   }
 )
 
+const translateSelector = createSelector(
+  langSelector,
+  lang => {
+    const i18nInst = i18nInstances[lang]
+    const tr = i18nInst.__.bind(i18nInst)
+    const trN = i18nInst.__n.bind(i18nInst)
+    return {tr, trN}
+  })
+
 export {
   paramsSelector,
   normParamsSelector,
@@ -111,4 +121,5 @@ export {
   resultParamsDescSelector,
   resultStatRowsSelector,
   langSelector,
+  translateSelector,
 }

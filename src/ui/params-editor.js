@@ -6,7 +6,11 @@ import {
   Panel, FormControl, Button,
 } from 'react-bootstrap'
 
-import { paramsSelector, canSimulateSelector } from '../selectors'
+import {
+  paramsSelector,
+  canSimulateSelector,
+  translateSelector,
+} from '../selectors'
 import { PTyp } from '../ptyp'
 import { mapDispatchToProps } from '../store'
 import { performSimulateAsync } from '../simulate'
@@ -34,6 +38,7 @@ class ParamsEditorImpl extends Component {
     beforeAbort: PTyp.number.isRequired,
     canSimulate: PTyp.bool.isRequired,
     modifyState: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   modifyParams = modifier =>
@@ -79,15 +84,15 @@ class ParamsEditorImpl extends Component {
   render() {
     const {
       dropRatePercentStr, experimentCount, beforeAbort,
-      canSimulate,
+      canSimulate, tr,
     } = this.props
     return (
-      <Panel header="Parameters">
+      <Panel header={tr('Params.Title')}>
         <div>
           {
             [
               [
-                'Drop Rate',
+                tr('Params.DropRate'),
                 (
                   <div style={{display: 'flex', alignItems: 'center'}}>
                     <FormControl
@@ -101,7 +106,7 @@ class ParamsEditorImpl extends Component {
                 ),
               ],
               [
-                'Experiment Count',
+                tr('Params.ExperimentCount'),
                 (
                   <div style={{display: 'flex', alignItems: 'center'}}>
                     <FormControl
@@ -127,7 +132,7 @@ class ParamsEditorImpl extends Component {
                 ),
               ],
               [
-                'Attempts Before Aborting',
+                tr('Params.BeforeAbort'),
                 (
                   <FormControl
                     onChange={this.handleChangeParam('beforeAbort')}
@@ -148,7 +153,7 @@ class ParamsEditorImpl extends Component {
               disabled={!canSimulate}
               onClick={performSimulateAsync}
             >
-              Simulate
+              {tr('Params.Simulate')}
             </Button>
           </div>
         </div>
@@ -161,6 +166,7 @@ const ParamsEditor = connect(
   state => ({
     ...paramsSelector(state),
     canSimulate: canSimulateSelector(state),
+    ...translateSelector(state),
   }),
   mapDispatchToProps,
 )(ParamsEditorImpl)
